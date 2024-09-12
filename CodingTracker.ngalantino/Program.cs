@@ -2,34 +2,14 @@
 using System.Collections.Specialized;
 using Microsoft.Data.Sqlite;
 
-// string sAttr;
-
-// sAttr = ConfigurationManager.AppSettings.Get("Key0");
-
-// Console.WriteLine("The value of Key0 is "+sAttr);
-
 public class Program()
 {
     public static void Main(string[] args)
     {
+        DatabaseManager db = new DatabaseManager();
 
-        using (var connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
-        {
-            connection.Open();
+        var codingSession = new CodingSession() {startTime = "Learn Dapper", endTime = "It is fun.", timeSpan = "10s"};
 
-            SqliteCommand tableCmd = connection.CreateCommand();
-
-            tableCmd.CommandText =
-            @"CREATE TABLE IF NOT EXISTS coding_tracker (
-                Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                StartTime TEXT,
-                EndTime TEXT,
-                Duration INTEGER
-                )";
-
-            tableCmd.ExecuteNonQuery();
-
-            connection.Close();
-        }
+        db.Insert(codingSession);
     }
 }
