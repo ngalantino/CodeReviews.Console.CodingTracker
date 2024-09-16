@@ -1,5 +1,7 @@
 
+using System.Collections;
 using System.Configuration;
+using System.Data;
 using Dapper;
 using Microsoft.Data.Sqlite;
 
@@ -41,8 +43,19 @@ public class DatabaseManager
         }
     }
 
-    public void GetRecords() {
+    public async Task<IEnumerable<CodingSession>> GetRecords() {
+        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
+            
+            IEnumerable<CodingSession> dbRecords = new List<CodingSession>();
 
+            connection.Open();
+
+            dbRecords = await connection.QueryAsync<CodingSession>("SELECT * FROM coding_tracker");
+
+            connection.Close();
+
+            return dbRecords;
+        }
     }
 
     public void Update() {
