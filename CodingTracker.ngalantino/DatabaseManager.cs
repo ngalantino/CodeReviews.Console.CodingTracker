@@ -58,8 +58,18 @@ public class DatabaseManager
         }
     }
 
-    public void Update() {
+    public void Update(CodingSession codingSession) {
+        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
 
+            var sql = @"UPDATE coding_tracker SET 
+                        StartTime = @startTime,
+                        EndTime = @endTime,
+                        Duration = @timeSpan
+                        WHERE Id = @Id";
+
+            var affectedRows = connection.Execute(sql, codingSession);
+
+        }
     }
 
     public void Delete() {

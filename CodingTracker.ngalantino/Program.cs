@@ -8,15 +8,17 @@ public class Program()
     {
         DatabaseManager db = new DatabaseManager();
 
-        var codingSession = new CodingSession() {startTime = "Learn Dapper", endTime = "", timeSpan = "10s"};
+        var codingSession = new CodingSession() {Id = 1, startTime = "Learn Dapper UPDATED", endTime = "", timeSpan = "5s"};
 
-        db.Insert(codingSession);
+        //db.Insert(codingSession);
 
-        var records = await db.GetRecords();
+        //var records = await db.GetRecords();
 
-        foreach (var record in records) {
-            Console.WriteLine(record.startTime);
-        }
+        //foreach (var record in records) {
+        //    Console.WriteLine(record.startTime);
+        //}
+
+        db.Update(codingSession);
     }
 }
 
