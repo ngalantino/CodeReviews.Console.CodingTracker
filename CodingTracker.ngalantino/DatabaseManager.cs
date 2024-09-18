@@ -60,6 +60,7 @@ public class DatabaseManager
 
     public void Update(CodingSession codingSession) {
         using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
+            connection.Open();
 
             var sql = @"UPDATE coding_tracker SET 
                         StartTime = @startTime,
@@ -69,10 +70,20 @@ public class DatabaseManager
 
             var affectedRows = connection.Execute(sql, codingSession);
 
+            connection.Close();
         }
     }
 
-    public void Delete() {
+    public void Delete(CodingSession codingSession) {
+        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
+            connection.Open();
 
+            var sql = @"DELETE FROM coding_tracker
+                        WHERE Id = @Id";
+
+            var affectedRows = connection.Execute(sql, codingSession);
+
+            connection.Close();
+        }
     }
 }

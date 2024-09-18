@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Collections.Specialized;
 using Microsoft.Data.Sqlite;
+using Spectre.Console;
 
 public class Program()
 {
@@ -8,7 +9,7 @@ public class Program()
     {
         DatabaseManager db = new DatabaseManager();
 
-        var codingSession = new CodingSession() {Id = 1, startTime = "Learn Dapper UPDATED", endTime = "", timeSpan = "5s"};
+        //var codingSession = new CodingSession() {Id = 1, startTime = "Learn Dapper UPDATED", endTime = "", timeSpan = "5s"};
 
         //db.Insert(codingSession);
 
@@ -18,7 +19,17 @@ public class Program()
         //    Console.WriteLine(record.startTime);
         //}
 
-        db.Update(codingSession);
+        // db.Update(codingSession);
+        CodingSession codingSession = new CodingSession() { Id = 2 };
+        db.Delete(codingSession);
+
+        var table = new Table();
+        table.AddColumn(new TableColumn(new Markup("[yellow]Foo[/]")));
+        table.AddColumn(new TableColumn("[blue]Bar[/]"));
+        AnsiConsole.Write(table);
+
+        Console.ReadLine();
+
     }
 }
 
