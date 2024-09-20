@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using Dapper;
 using Microsoft.Data.Sqlite;
 
@@ -35,7 +36,14 @@ public class DatabaseManager
 
             var sql = @"INSERT INTO coding_tracker (StartTime, EndTime, Duration) VALUES (@startTime, @endTime, @timeSpan)";
 
-            var rowsAffected = connection.Execute(sql, codingSession);
+            // Use anonymous object to parse DateTime and TimeSpan to strings.
+            var data = new {
+                startTime = codingSession.startTime.ToString(),
+                endTime = codingSession.endTime.ToString(),
+                timeSpan = codingSession.timeSpan.ToString()
+            };
+
+            var rowsAffected = connection.Execute(sql, data);
 
             Console.WriteLine($"{rowsAffected} row(s) inserted.");
 
@@ -43,14 +51,17 @@ public class DatabaseManager
         }
     }
 
-    public async Task<IEnumerable<CodingSession>> GetRecords() {
+    public List<CodingSession> GetRecords() {
         using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
             
-            IEnumerable<CodingSession> dbRecords = new List<CodingSession>();
+            List<CodingSession> dbRecords = new List<CodingSession>();
 
             connection.Open();
 
-            dbRecords = await connection.QueryAsync<CodingSession>("SELECT * FROM coding_tracker");
+            dbRecords = connection.Query("SELECT * FROM coding_tracker").Select(record => new CodingSession {
+                startTime = DateTime.ParseExact(record.StartTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
+                endTime = DateTime.ParseExact(record.EndTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture)
+            }).ToList();           
 
             connection.Close();
 
@@ -85,5 +96,14 @@ public class DatabaseManager
 
             connection.Close();
         }
+    }
+
+    public void SeedDb() {
+        CodingSession codingSession = new CodingSession() {
+            startTime = new DateTime(2024, 9, 20),
+            endTime = new DateTime(2024, 9, 4),
+        };
+
+        Insert(codingSession);
     }
 }
