@@ -11,17 +11,37 @@ internal static class CodingController
 
     public static void NewCodingSession()
     {
-        // TODO: Validate end date is after start date.
 
-        Console.WriteLine("Enter start date and time (M/d/yyyy h:mm AM/PM)");
-        DateTime startTime = InputValidation.ParseDateTime();
+        bool validDates = false;
+        DateTime startTime;
+        DateTime endTime;
 
-        Console.WriteLine("Enter end date and time (M/d/yyyy h:mm AM/PM)");
-        DateTime endTime = InputValidation.ParseDateTime();
+        while (!validDates)
+        {
 
-        CodingSession codingSession = new CodingSession { startTime = startTime, endTime = endTime };
+            Console.WriteLine("Enter start date and time (M/d/yyyy h:mm AM/PM)");
+            startTime = InputValidation.ParseDateTime();
 
-        _db.Insert(codingSession);
+            Console.WriteLine("Enter end date and time (M/d/yyyy h:mm AM/PM)");
+            endTime = InputValidation.ParseDateTime();
+
+            if ((int)endTime.Subtract(startTime).TotalSeconds < 0)
+            {
+                Console.WriteLine("End time must be later than start time!");
+                validDates = false;
+            }
+
+            else
+            {
+                CodingSession codingSession = new CodingSession { startTime = startTime, endTime = endTime };
+
+                _db.Insert(codingSession);
+                
+                validDates = true;
+            }
+
+        }
+
     }
 
     public static void ShowAllCodingSessions()
@@ -110,7 +130,7 @@ internal static class CodingController
             }
         }
 
-        CodingSession codingSession= new CodingSession() { Id = Id };
+        CodingSession codingSession = new CodingSession() { Id = Id };
 
         _db.Delete(codingSession);
     }

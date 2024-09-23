@@ -11,7 +11,7 @@ public class InputValidation
 
         while (!DateTime.TryParseExact(dateInput, "M/d/yyyy h:mm tt", new CultureInfo("en-US"), DateTimeStyles.None, out dateOutput))
         {
-            Console.WriteLine("\n\nInvalid date. (M/d/yyyy h:mm AM/PM).\n\n");
+            Console.WriteLine("\n\nInvalid date. Enter date with the following format: (M/d/yyyy h:mm AM/PM).\n\n");
             dateInput = Console.ReadLine();
         }
 
