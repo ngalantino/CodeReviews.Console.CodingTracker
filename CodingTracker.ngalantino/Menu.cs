@@ -41,13 +41,14 @@ public class Menu
                     break;
 
                 case "Update previous coding session":
-                    
-                    Console.WriteLine("TODO: Update coding session");
+                    CodingController.UpdateCodingSession(); 
+                   
                     Console.WriteLine("Press enter to continue...");
                     Console.ReadLine();
                     break;
 
                 case "Delete coding session":
+
                     Console.WriteLine("Press enter to continue...");
                     Console.ReadLine();
                     break;

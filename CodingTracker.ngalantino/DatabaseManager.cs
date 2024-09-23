@@ -30,14 +30,17 @@ public class DatabaseManager
         }
     }
 
-    public void Insert(CodingSession codingSession) {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
+    public void Insert(CodingSession codingSession)
+    {
+        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        {
             connection.Open();
 
             var sql = @"INSERT INTO coding_tracker (StartTime, EndTime, Duration) VALUES (@startTime, @endTime, @timeSpan)";
 
             // Use anonymous object to parse DateTime and TimeSpan to strings.
-            var data = new {
+            var data = new
+            {
                 startTime = codingSession.startTime.ToString(),
                 endTime = codingSession.endTime.ToString(),
                 timeSpan = codingSession.timeSpan.ToString()
@@ -51,17 +54,21 @@ public class DatabaseManager
         }
     }
 
-    public List<CodingSession> GetRecords() {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
-            
+    public List<CodingSession> GetRecords()
+    {
+        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        {
+
             List<CodingSession> dbRecords = new List<CodingSession>();
 
             connection.Open();
 
-            dbRecords = connection.Query("SELECT * FROM coding_tracker").Select(record => new CodingSession {
+            dbRecords = connection.Query("SELECT * FROM coding_tracker").Select(record => new CodingSession
+            {
+                Id = record.Id,
                 startTime = DateTime.ParseExact(record.StartTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
                 endTime = DateTime.ParseExact(record.EndTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture)
-            }).ToList();           
+            }).ToList();
 
             connection.Close();
 
@@ -69,8 +76,10 @@ public class DatabaseManager
         }
     }
 
-    public void Update(CodingSession codingSession) {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
+    public void Update(CodingSession codingSession)
+    {
+        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        {
             connection.Open();
 
             var sql = @"UPDATE coding_tracker SET 
@@ -79,14 +88,24 @@ public class DatabaseManager
                         Duration = @timeSpan
                         WHERE Id = @Id";
 
-            var affectedRows = connection.Execute(sql, codingSession);
+            var data = new
+            {
+                startTime = codingSession.startTime.ToString(),
+                endTime = codingSession.endTime.ToString(),
+                timeSpan = codingSession.timeSpan.ToString(),
+                Id = codingSession.Id
+            };
+
+            var affectedRows = connection.Execute(sql, data);
 
             connection.Close();
         }
     }
 
-    public void Delete(CodingSession codingSession) {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB"))) {
+    public void Delete(CodingSession codingSession)
+    {
+        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        {
             connection.Open();
 
             var sql = @"DELETE FROM coding_tracker
@@ -98,8 +117,10 @@ public class DatabaseManager
         }
     }
 
-    public void SeedDb() {
-        CodingSession codingSession = new CodingSession() {
+    public void SeedDb()
+    {
+        CodingSession codingSession = new CodingSession()
+        {
             startTime = new DateTime(2024, 9, 20),
             endTime = new DateTime(2024, 9, 4),
         };
