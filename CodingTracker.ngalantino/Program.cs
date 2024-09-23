@@ -1,8 +1,4 @@
-﻿using System.Configuration;
-using System.Collections.Specialized;
-using Microsoft.Data.Sqlite;
-using Spectre.Console;
-using System.Net;
+﻿
 
 public class Program()
 {

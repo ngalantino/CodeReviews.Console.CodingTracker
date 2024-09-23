@@ -1,5 +1,4 @@
 using System.Data.Common;
-using System.Globalization;
 using Spectre.Console;
 internal static class CodingController
 {
@@ -33,7 +32,7 @@ internal static class CodingController
 
             else
             {
-                CodingSession codingSession = new CodingSession { startTime = startTime, endTime = endTime };
+                CodingSession codingSession = new CodingSession { StartTime = startTime, EndTime = endTime };
 
                 _db.Insert(codingSession);
                 
@@ -55,7 +54,7 @@ internal static class CodingController
 
         foreach (var session in codingSessions)
         {
-            table.AddRow(session.Id.ToString(), session.startTime.ToString(), session.endTime.ToString(), session.timeSpan.ToString());
+            table.AddRow(session.Id.ToString(), session.StartTime.ToString(), session.EndTime.ToString(), session.TimeSpan.ToString());
         }
         AnsiConsole.Write(table);
     }
@@ -95,8 +94,8 @@ internal static class CodingController
 
         CodingSession updatedCodingSession = new CodingSession
         {
-            startTime = startTime,
-            endTime = endTime,
+            StartTime = startTime,
+            EndTime = endTime,
             Id = Id
         };
 

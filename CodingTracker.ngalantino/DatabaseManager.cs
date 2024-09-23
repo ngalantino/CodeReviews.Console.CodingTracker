@@ -1,5 +1,4 @@
 
-using System.Collections;
 using System.Configuration;
 using System.Data;
 using System.Globalization;
@@ -41,9 +40,9 @@ public class DatabaseManager
             // Use anonymous object to parse DateTime and TimeSpan to strings.
             var data = new
             {
-                startTime = codingSession.startTime.ToString(),
-                endTime = codingSession.endTime.ToString(),
-                timeSpan = codingSession.timeSpan.ToString()
+                startTime = codingSession.StartTime.ToString(),
+                endTime = codingSession.EndTime.ToString(),
+                timeSpan = codingSession.TimeSpan.ToString()
             };
 
             var rowsAffected = connection.Execute(sql, data);
@@ -66,8 +65,8 @@ public class DatabaseManager
             dbRecords = connection.Query("SELECT * FROM coding_tracker").Select(record => new CodingSession
             {
                 Id = record.Id,
-                startTime = DateTime.ParseExact(record.StartTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
-                endTime = DateTime.ParseExact(record.EndTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture)
+                StartTime = DateTime.ParseExact(record.StartTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture),
+                EndTime = DateTime.ParseExact(record.EndTime, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture)
             }).ToList();
 
             connection.Close();
@@ -90,13 +89,13 @@ public class DatabaseManager
 
             var data = new
             {
-                startTime = codingSession.startTime.ToString(),
-                endTime = codingSession.endTime.ToString(),
-                timeSpan = codingSession.timeSpan.ToString(),
+                startTime = codingSession.StartTime.ToString(),
+                endTime = codingSession.EndTime.ToString(),
+                timeSpan = codingSession.TimeSpan.ToString(),
                 Id = codingSession.Id
             };
 
-            var affectedRows = connection.Execute(sql, data);
+            connection.Execute(sql, data);
 
             connection.Close();
         }
@@ -111,7 +110,7 @@ public class DatabaseManager
             var sql = @"DELETE FROM coding_tracker
                         WHERE Id = @Id";
 
-            var affectedRows = connection.Execute(sql, codingSession);
+            connection.Execute(sql, codingSession);
 
             Console.WriteLine($"Deleted Id: {codingSession.Id}");
 
