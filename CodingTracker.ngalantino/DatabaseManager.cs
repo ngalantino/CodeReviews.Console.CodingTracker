@@ -113,18 +113,10 @@ public class DatabaseManager
 
             var affectedRows = connection.Execute(sql, codingSession);
 
+            Console.WriteLine($"Deleted Id: {codingSession.Id}");
+
             connection.Close();
         }
     }
 
-    public void SeedDb()
-    {
-        CodingSession codingSession = new CodingSession()
-        {
-            startTime = new DateTime(2024, 9, 20),
-            endTime = new DateTime(2024, 9, 4),
-        };
-
-        Insert(codingSession);
-    }
 }

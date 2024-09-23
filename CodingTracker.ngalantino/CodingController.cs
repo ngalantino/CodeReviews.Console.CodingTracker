@@ -83,4 +83,35 @@ internal static class CodingController
         _db.Update(updatedCodingSession);
 
     }
+
+    public static void DeleteCodingSession()
+    {
+        ShowAllCodingSessions();
+
+        Console.WriteLine("Enter the Id of the coding session you would like to delete.");
+
+        string input;
+        long Id = 0;
+        bool validInput = false;
+
+        while (!validInput)
+        {
+            try
+            {
+                input = Console.ReadLine();
+                Id = long.Parse(input);
+                validInput = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Invalid Id, try again.");
+                validInput = false;
+
+            }
+        }
+
+        CodingSession codingSession= new CodingSession() { Id = Id };
+
+        _db.Delete(codingSession);
+    }
 }

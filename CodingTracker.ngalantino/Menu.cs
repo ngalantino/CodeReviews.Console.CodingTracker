@@ -48,6 +48,7 @@ public class Menu
                     break;
 
                 case "Delete coding session":
+                    CodingController.DeleteCodingSession();
 
                     Console.WriteLine("Press enter to continue...");
                     Console.ReadLine();
