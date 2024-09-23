@@ -1,5 +1,4 @@
 
-using System.Configuration;
 using System.Data;
 using System.Globalization;
 using Dapper;
@@ -9,7 +8,7 @@ public class DatabaseManager
 {
     public DatabaseManager()
     {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        using (SqliteConnection connection = new SqliteConnection(System.Configuration.ConfigurationManager.AppSettings.Get("sqliteDB")))
         {
             connection.Open();
 
@@ -31,7 +30,7 @@ public class DatabaseManager
 
     public void Insert(CodingSession codingSession)
     {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        using (SqliteConnection connection = new SqliteConnection(System.Configuration.ConfigurationManager.AppSettings.Get("sqliteDB")))
         {
             connection.Open();
 
@@ -55,7 +54,7 @@ public class DatabaseManager
 
     public List<CodingSession> GetRecords()
     {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        using (SqliteConnection connection = new SqliteConnection(System.Configuration.ConfigurationManager.AppSettings.Get("sqliteDB")))
         {
 
             List<CodingSession> dbRecords = new List<CodingSession>();
@@ -77,7 +76,7 @@ public class DatabaseManager
 
     public void Update(CodingSession codingSession)
     {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        using (SqliteConnection connection = new SqliteConnection(System.Configuration.ConfigurationManager.AppSettings.Get("sqliteDB")))
         {
             connection.Open();
 
@@ -103,7 +102,7 @@ public class DatabaseManager
 
     public void Delete(CodingSession codingSession)
     {
-        using (SqliteConnection connection = new SqliteConnection(ConfigurationManager.AppSettings.Get("sqliteDB")))
+        using (SqliteConnection connection = new SqliteConnection(System.Configuration.ConfigurationManager.AppSettings.Get("sqliteDB")))
         {
             connection.Open();
 
